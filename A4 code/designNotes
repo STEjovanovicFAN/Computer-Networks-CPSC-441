@@ -1,0 +1,126 @@
+
+
+
+
+
+public RtnTable start(){
+
+this essentially initalizes my table(minCostTable)
+			/*
+						minCostTable
+
+						cost to get from side router to next router
+
+						 example for router id 0:
+
+						 -use the dvr packet we got from server to initalize this routers physical link cost
+						 -to get from router 0-0 its 0, to get from router 0-1 its Unknown, .....and so on
+
+
+															   router
+													0				1				2				3
+										0			0			 999		 10		    3
+					routers		1
+										2
+										3
+
+						 -because we dont know each routers link cost we fill the rest of the blank spaces with 999
+
+						 NOTE:THE SIZE OF THE minCostTable IS ALWAYS [X][X]
+
+			*/
+}
+
+public void processDvr(DvrPacket dvr)
+
+if(){
+    /*
+			 So when we call update in the server:
+			     	- Server sends an update message to every router
+						- The way we know it is from the server is if the packet we recieved has an id of 100 (100 is the server id)
+
+			 When we get the update packet get the update for the physical links FOR THIS ROUTER
+			 So in other words it only changes the physical link values THIS ROUTER HAS
+
+			 example router id 0:
+			  		R0 -> R2 cost is: 10
+						UPDATE happens
+						R0 -> R2 cost is: 1
+
+			 if the updated value < current value to get to X router
+			 			- change the minCostVec to the updated value
+						- change our minCostTable to the updated value
+						- update our next hop to where we changed the value
+    */
+
+
+
+}
+
+
+else{
+//update the min cost vector
+/*
+    example id 0:
+
+                           router
+                    0				1				2				3
+              0			0			 999		 10		    3
+    routers		1    999     999     999     999
+              2    999     999     999     999
+              3    999     999     999     999
+
+       - So initally we know that the table looks like this
+       - we only have the row for THIS routers id, so in this case the first row
+
+       - when we get to this part of the code we received an update packet from another neightbour
+       - this update looks like this
+
+       example id 3:
+        [3, 1, 1, 0]
+
+       - Since we have undefined for all of row id 3, update the values of row 3
+       - So we get
+
+                             router
+                      0				1				2				3
+                0			0			 999		 10		    3
+      routers		1    999     999     999     999
+                2    999     999     999     999
+                3     3       1       1       0
+
+
+        - Since we now know router id 3 minCostVec we can now make an algorithm to update router id 0
+                  using router id 3 cost
+
+        - Take the updated id row
+        - algorithm to calculate the total cost [cost to get to router x] + [cost to get to router y through x]
+
+        example:
+           check if cost from 3 to 1 is better then current cost 1
+
+              [cost to get to router 3] + [cost from router 3 to router 1] = 3 + 1 = 4
+              question: is 4 less than 999?
+              yes
+              replace minCostVec of router id 0 in minCostTable[0][1] to 4
+              update the nexthop to be 3 if it is replaced
+
+           check if the cost from 3 to 2 is better then current cost to 2
+
+              [cost to get to router 3] + [cost from router 3 to router 2] = 3 + 1 = 4
+              question: is 4 less than 10?
+              yes
+              replace minCostVec of router id 0 in minCostTable[0][2] to 4
+              update the nexthop to be 3 if it is replaced
+
+
+        - Don't need to check for 3 to 3 because it will be the same cost from 0 to 3
+        - Same is applied from 3 to 0 becasue
+        - But we can do it anyway it will not affect the outcome
+
+        FINALIZATION: update the minCostVec to send an update to the rest of the routers
+*/
+
+
+
+}
